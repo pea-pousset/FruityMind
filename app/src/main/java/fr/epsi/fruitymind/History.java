@@ -1,13 +1,9 @@
 package fr.epsi.fruitymind;
 
-import android.graphics.drawable.Drawable;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -67,7 +63,6 @@ public class History extends RecyclerView.Adapter<History.ItemView>
     public void onBindViewHolder(@NonNull History.ItemView holder, int position)
     {
         int eval = m_items.get(position).getEval();
-        Log.d("SCORE", Integer.toString(eval));
         holder.fruit_0.setImageDrawable(m_items.get(position).getFruitImage(0));
         holder.fruit_1.setImageDrawable(m_items.get(position).getFruitImage(1));
         holder.fruit_2.setImageDrawable(m_items.get(position).getFruitImage(2));

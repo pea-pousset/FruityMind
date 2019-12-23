@@ -116,7 +116,6 @@ public class EvalView extends View
                 m_paintInner.setColor(0xBBBB4400);
             else
                 m_paintInner.setColor(0);
-
         }
 
         void draw(Canvas canvas)
