@@ -12,10 +12,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+/*============================================================================================*//**
+ * Gere l'historique des essais
+ *//*=============================================================================================*/
 public class History extends RecyclerView.Adapter<History.ItemView>
 {
-    private List<HistoryItem> m_items;
+    private List<HistoryItem> m_items;  // Liste des entrees de l'historique
 
+    /*========================================================================================*//**
+     * Constructeur
+     *//*=========================================================================================*/
     public History(LinearLayoutManager lm)
     {
         m_items = new ArrayList<HistoryItem>();
@@ -32,24 +38,38 @@ public class History extends RecyclerView.Adapter<History.ItemView>
         });
     }
 
+    /*========================================================================================*//**
+     * Ajoute une entree a l'historique
+     *
+     * @param item item a ajouter
+     *//*=========================================================================================*/
     public void addItem(HistoryItem item)
     {
         m_items.add(item);
         notifyItemInserted(m_items.size() - 1);
     }
 
+    /*========================================================================================*//**
+     * Efface l'historique
+     *//*=========================================================================================*/
     public void clear()
     {
         m_items.clear();
         notifyDataSetChanged();
     }
 
+    /*========================================================================================*//**
+     * Renvoie le nombre d'entrees dans l'historique
+     *//*=========================================================================================*/
     @Override
     public int getItemCount()
     {
         return m_items.size();
     }
 
+    /*========================================================================================*//**
+     * Appele a la creation d'un item
+     *//*=========================================================================================*/
     @NonNull
     @Override
     public ItemView onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
@@ -59,6 +79,9 @@ public class History extends RecyclerView.Adapter<History.ItemView>
         return new ItemView(view);
     }
 
+    /*========================================================================================*//**
+     * Lie les donnees a la vue de l'item
+     *//*=========================================================================================*/
     @Override
     public void onBindViewHolder(@NonNull History.ItemView holder, int position)
     {
@@ -70,14 +93,20 @@ public class History extends RecyclerView.Adapter<History.ItemView>
         holder.evaluation.setEvaluation((int)(eval / 10), eval % 10);
     }
 
+    /*========================================================================================*//**
+     * Decrit les elements visuels d'une entree de l'historique
+     *//*=========================================================================================*/
     class ItemView extends RecyclerView.ViewHolder
     {
-        public ImageView fruit_0;
-        public ImageView fruit_1;
-        public ImageView fruit_2;
-        public ImageView fruit_3;
-        public EvalView  evaluation;
+        public ImageView fruit_0;       // Premier fruit du code
+        public ImageView fruit_1;       // Deuxieme fruit du code
+        public ImageView fruit_2;       // Troisieme fruit du code
+        public ImageView fruit_3;       // Quatrieme fruit du code
+        public EvalView  evaluation;    // Vue de l'evaluation de l'essai
 
+        /*====================================================================================*//**
+         * Constructeur
+         *//*=====================================================================================*/
         public ItemView(@NonNull View itemView)
         {
             super(itemView);

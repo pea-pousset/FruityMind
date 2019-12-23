@@ -2,8 +2,9 @@
 
 <!--
     On centralise ici la liste des fruits et leurs attributs pour pouvoir facilement
-    ajouter/modifier/supprimer des fruits. Des tableaux java sont par la suite
-    dynamiquement crees pour acceder a ces attributs par le biais d'un indice [0 .. numFruits].
+    ajouter/modifier/supprimer des fruits (peu importe le nombre).
+    Des tableaux java sont par la suite dynamiquement crees pour acceder a ces attributs par le
+    biais d'un indice [0 .. numFruits].
 -->
 
 <resources>

@@ -16,22 +16,25 @@ import android.widget.TextView;
 
 import java.util.Arrays;
 
+/*============================================================================================*//**
+ * Classe principale de l'application
+ *//*=============================================================================================*/
 public class MainActivity extends AppCompatActivity
 {
-    static final int CODE_LEN  = 4;
-    static final int MAX_TRIES = 10;
+    static final int CODE_LEN  = 4;     // Nombre de fruits dans un code
+    static final int MAX_TRIES = 10;    // Nombre maximum d'essais autorise
 
     private int       m_numFruits;  // Nombre de fruits differents
     private boolean[] m_withSeed;   // Attribut withSeed pour chaque fruit
     private boolean[] m_peelable;   // Attribut peelable pour chaque fruit
     private int[]     m_iFruits;    // Liste d'indices des fruits melangee a chaque nouvelle partie
     private int[]     m_userEntry;  // Indices des fruits choisis par le joueur
-    private int       m_score;
-    private int       m_numTries;
+    private int       m_score;      // Score total
+    private int       m_numTries;   // Nombre d'essais joues dans le set en cours
     private boolean   m_seedHintUsed;       // Indice graine utlise
     private boolean   m_peelableHintUsed;   // Indice pelable utilise
-    private History   m_history;
-    private Resources res;
+    private History   m_history;            // Historique des essais joues
+    private Resources res;                  // Ressources de l'application
 
     /*========================================================================================*//**
      * Initialisation de l'activite
@@ -49,9 +52,11 @@ public class MainActivity extends AppCompatActivity
         registerForContextMenu(findViewById(R.id.userEntry_1));
         registerForContextMenu(findViewById(R.id.userEntry_2));
         registerForContextMenu(findViewById(R.id.userEntry_3));
+
         // Met en place la fonction appelee en cas de clic du bouton unique
         findViewById(R.id.validateButton).setOnClickListener((View v) -> makeGuess());
 
+        // Met en place l'historique des essais
         LinearLayoutManager lm = new LinearLayoutManager(this);
         m_history = new History(lm);
         ((RecyclerView)findViewById(R.id.history)).setAdapter(m_history);
