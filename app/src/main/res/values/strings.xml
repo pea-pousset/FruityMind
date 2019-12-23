@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">FruityMind</string>
+    <string name="txtTotalScore">Score total: </string>
+    <string name="txtTriesLeft">Essais restants: </string>
+    <string name="txtValidate">Valider</string>
+    <string name="txtFruitChoice">Choisir le fruit</string>
+</resources>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    On centralise ici la liste des fruits et leurs attributs pour pouvoir facilement
+    ajouter/modifier/supprimer des fruits. Des tableaux java sont par la suite
+    dynamiquement crees pour acceder a ces attributs par le biais d'un indice [0 .. numFruits].
+-->
+
+<resources>
+    <!-- Nombre de fruits -->
+    <integer name="numFruits">8</integer>
+
+    <string-array name="fruitNames">
+        <item>Fraise</item>
+        <item>Banane</item>
+        <item>Framboise</item>
+        <item>Kiwi</item>
+        <item>Orange</item>
+        <item>Prune</item>
+        <item>Raisin</item>
+        <item>Citron</item>
+    </string-array>
+
+    <array name="fruitWithSeed">
+        <item>false</item> <!-- Strawberry -->
+        <item>false</item> <!-- Banana -->
+        <item>false</item> <!-- Raspberry -->
+        <item>false</item> <!-- Kiwi -->
+        <item>true</item>  <!-- Orange -->
+        <item>true</item>  <!-- Plum -->
+        <item>true</item>  <!-- Grapes -->
+        <item>true</item>  <!-- Lemon  -->
+    </array>
+
+    <array name="fruitPeelable">
+        <item>false</item> <!-- Strawberry -->
+        <item>true</item>  <!-- Banana -->
+        <item>false</item> <!-- Raspberry -->
+        <item>true</item>  <!-- Kiwi -->
+        <item>true</item>  <!-- Orange -->
+        <item>false</item> <!-- Plum -->
+        <item>false</item> <!-- Grapes -->
+        <item>true</item>  <!-- Lemon  -->
+    </array>
+
+    <array name="fruitImages">
+        <item>@drawable/strawberry</item>
+        <item>@drawable/banana</item>
+        <item>@drawable/raspberry</item>
+        <item>@drawable/kiwi</item>
+        <item>@drawable/orange</item>
+        <item>@drawable/plum</item>
+        <item>@drawable/grapes</item>
+        <item>@drawable/lemon</item>
+    </array>
+
+</resources>
