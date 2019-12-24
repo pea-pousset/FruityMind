@@ -149,9 +149,9 @@ public class EvalView extends View
         void setScore(int i)
         {
             if (i == 0)
-                m_paintInner.setColor(0xBB00BB00);
+                m_paintInner.setColor(0xFF00BB00);
             else if (i == 1)
-                m_paintInner.setColor(0xBBBB4400);
+                m_paintInner.setColor(0xFFEB6200);
             else
                 m_paintInner.setColor(0);
         }
