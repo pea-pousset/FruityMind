@@ -8,9 +8,10 @@
     <string name="gameWonTitle">Gagné !</string>
     <string name="gameWonMessage">Félicitations.</string>
 
-    <string name="gameLostTitle">Perdu :-(</string>         <!-- !! espace incompressible -->
-    <string name="numGamesWon">Parties gagnées: </string>   <!-- !! espace incompressible -->
+    <string name="gameLostTitle">Perdu :-(</string>         <!-- !! espace insecable -->
+    <string name="numGamesWon">Parties gagnées: </string>   <!-- !! espace insecable -->
     <string name="score">Score: </string>
+    <string name="solution">Il fallait trouver : </string>  <!-- !! espace insecable -->
 
     <string name="continueButton">Continuer</string>
     <string name="restartButton">Recommencer</string>

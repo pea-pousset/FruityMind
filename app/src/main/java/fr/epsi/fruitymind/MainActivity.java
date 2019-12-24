@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity
         int   misplaced   = 0;
         int[] fruitsCount = new int[m_numFruits];
 
-        // En bourrinant le bouton on peut continuer a faire baisser le score pendant l'animation
+        // En bourrinant le bouton on peut continuer a l'actionner pendant l'animation
         // d'affichage du dialog modal...
         if (m_numTries >= MAX_TRIES)
             return;
@@ -237,11 +237,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-        Log.d("Code ", Arrays.toString(m_iFruits));
-        Log.d("Guess", Arrays.toString(m_userEntry));
-        Log.d("Bien place", Integer.toString(placed));
-        Log.d("Mal place ", Integer.toString(misplaced));
-
+        // Ajoute l'essai a l'historique
         m_history.addItem(new HistoryItem(res, m_userEntry, placed, misplaced));
 
         if (placed == CODE_LEN)
@@ -263,16 +259,25 @@ public class MainActivity extends AppCompatActivity
         else if (m_numTries == MAX_TRIES)
         {
             // Nombre max d'essais atteint : perdu :(
-            String msg = res.getString(R.string.numGamesWon)
-                .concat(Integer.toString(m_numGames))
-                .concat("\n")
-                .concat(res.getString(R.string.score))
-                .concat(Integer.toString(m_score));
+            StringBuilder msg = new StringBuilder();
+            msg.append(res.getString(R.string.numGamesWon));
+            msg.append(m_numGames);
+            msg.append("\n");
+            msg.append(res.getString(R.string.score));
+            msg.append(m_score);
+            msg.append("\n");
+            msg.append(res.getString(R.string.solution));
+            for (int i = 0; i < CODE_LEN; ++i)
+            {
+                msg.append(res.getStringArray(R.array.fruitNames)[m_iFruits[i]]);
+                if (i < CODE_LEN - 1)
+                    msg.append(", ");
+            }
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setCancelable(false);
             builder.setTitle(R.string.gameLostTitle);
-            builder.setMessage(msg);
+            builder.setMessage(msg.toString());
             builder.setPositiveButton(R.string.restartButton, (d, w) -> newGame());
             builder.setNegativeButton(R.string.quitButton, (d, w) -> finishAndRemoveTask());
             builder.show();
