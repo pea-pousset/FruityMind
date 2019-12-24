@@ -294,8 +294,9 @@ public class MainActivity extends AppCompatActivity
     void scoreToast()
     {
         int scoreLoc[] = new int[2];
+        String txt = String.format("+%d", MAX_TRIES - m_numTries+1);
         Toast toast =
-            Toast.makeText(this, String.format("+%d", m_numTries+1), Toast.LENGTH_LONG);
+            Toast.makeText(this, txt, Toast.LENGTH_LONG);
 
         // Trouve la position du score
         findViewById(R.id.score).getLocationOnScreen(scoreLoc);
