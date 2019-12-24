@@ -1,6 +1,7 @@
 package fr.epsi.fruitymind;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity
     private int[]     m_userEntry;  // Indices des fruits choisis par le joueur
     private int       m_score;      // Score total
     private int       m_numTries;   // Nombre d'essais joues dans le set en cours
+    private int       m_numGames;   // Nombre de parties gagnees
     private boolean   m_seedHintUsed;       // Indice graine utlise
     private boolean   m_peelableHintUsed;   // Indice pelable utilise
     private History   m_history;            // Historique des essais joues
@@ -54,7 +56,7 @@ public class MainActivity extends AppCompatActivity
         registerForContextMenu(findViewById(R.id.userEntry_3));
 
         // Met en place la fonction appelee en cas de clic du bouton unique
-        findViewById(R.id.validateButton).setOnClickListener((View v) -> makeGuess());
+        findViewById(R.id.validateButton).setOnClickListener(v -> makeGuess());
 
         // Met en place l'historique des essais
         LinearLayoutManager lm = new LinearLayoutManager(this);
@@ -121,6 +123,7 @@ public class MainActivity extends AppCompatActivity
     private void newGame()
     {
         m_score = 0;
+        m_numGames = 0;
         newSet();
     }
 
@@ -190,6 +193,11 @@ public class MainActivity extends AppCompatActivity
         int   misplaced   = 0;
         int[] fruitsCount = new int[m_numFruits];
 
+        // En bourrinant le bouton on peut continuer a faire baisser le score pendant l'animation
+        // d'affichage du dialog modal...
+        if (m_numTries >= MAX_TRIES)
+            return;
+
         ++m_numTries;
         updateScoreDisplay();
 
@@ -236,8 +244,39 @@ public class MainActivity extends AppCompatActivity
 
         m_history.addItem(new HistoryItem(res, m_userEntry, placed, misplaced));
 
-        // SI bien place = CODE_LEN : gagne
-        // SINON si essai = MAX_TRIES : perdu
-        // SINON continue
+        if (placed == CODE_LEN)
+        {
+            // 4 fruits bien places : gagne !
+            m_score += MAX_TRIES - m_numTries + 1;
+            ++m_numGames;
+            updateScoreDisplay();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setCancelable(false);
+            builder.setTitle(R.string.gameWonTitle);
+            builder.setMessage(R.string.gameWonMessage);
+            builder.setPositiveButton(R.string.continueButton, (d, w) -> newSet());
+            builder.setNeutralButton(R.string.restartButton, (d, w) -> newGame());
+            builder.setNegativeButton(R.string.quitButton, (d, w) -> finishAndRemoveTask());
+            builder.show();
+        }
+        else if (m_numTries == MAX_TRIES)
+        {
+            // Nombre max d'essais atteint : perdu :(
+            String msg = res.getString(R.string.numGamesWon)
+                .concat(Integer.toString(m_numGames))
+                .concat("\n")
+                .concat(res.getString(R.string.score))
+                .concat(Integer.toString(m_score));
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setCancelable(false);
+            builder.setTitle(R.string.gameLostTitle);
+            builder.setMessage(msg);
+            builder.setPositiveButton(R.string.restartButton, (d, w) -> newGame());
+            builder.setNegativeButton(R.string.quitButton, (d, w) -> finishAndRemoveTask());
+            builder.show();
+        }
+        // Pas de else, le jeu continue
     }
 }

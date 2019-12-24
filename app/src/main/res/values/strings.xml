@@ -4,4 +4,15 @@
     <string name="txtTriesLeft">Essais restants: </string>
     <string name="txtValidate">Valider</string>
     <string name="txtFruitChoice">Choisir le fruit</string>
+
+    <string name="gameWonTitle">Gagné !</string>
+    <string name="gameWonMessage">Félicitations.</string>
+
+    <string name="gameLostTitle">Perdu :-(</string>         <!-- !! espace incompressible -->
+    <string name="numGamesWon">Parties gagnées: </string>   <!-- !! espace incompressible -->
+    <string name="score">Score: </string>
+
+    <string name="continueButton">Continuer</string>
+    <string name="restartButton">Recommencer</string>
+    <string name="quitButton">Quitter</string>
 </resources>
