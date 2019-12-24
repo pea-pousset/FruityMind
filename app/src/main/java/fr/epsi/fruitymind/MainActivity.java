@@ -8,14 +8,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.Arrays;
+import android.widget.Toast;
 
 /*============================================================================================*//**
  * Classe principale de l'application
@@ -243,6 +242,10 @@ public class MainActivity extends AppCompatActivity
         if (placed == CODE_LEN)
         {
             // 4 fruits bien places : gagne !
+            scoreToast();
+
+            // On a decremente le nombre d'essai puisque le coup est joue, mais on voudrait
+            // 10 points pour un code trouve au premier essai et 1 au dixieme
             m_score += MAX_TRIES - m_numTries + 1;
             ++m_numGames;
             updateScoreDisplay();
@@ -283,5 +286,21 @@ public class MainActivity extends AppCompatActivity
             builder.show();
         }
         // Pas de else, le jeu continue
+    }
+
+    /*========================================================================================*//**
+     * Affiche un toast "+n" points sur le score
+     *//*=========================================================================================*/
+    void scoreToast()
+    {
+        int scoreLoc[] = new int[2];
+        Toast toast =
+            Toast.makeText(this, String.format("+%d", m_numTries+1), Toast.LENGTH_LONG);
+
+        // Trouve la position du score
+        findViewById(R.id.score).getLocationOnScreen(scoreLoc);
+        scoreLoc[1] -= findViewById(R.id.score).getHeight();
+        toast.setGravity(Gravity.TOP | Gravity.LEFT, scoreLoc[0], scoreLoc[1]);
+        toast.show();
     }
 }
