@@ -16,4 +16,7 @@
     <string name="continueButton">Continuer</string>
     <string name="restartButton">Recommencer</string>
     <string name="quitButton">Quitter</string>
+
+    <string name="txtHintSeed">Indice: à égrainer</string>
+    <string name="txtHintPeel">Indice: à peler</string>
 </resources>

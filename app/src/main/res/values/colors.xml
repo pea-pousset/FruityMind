@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="windowBackground">#FAFAFA</color>
     <color name="colorPrimary">#FC1542</color>
     <color name="colorPrimaryDark">#CB0040</color>
     <color name="colorAccent">#43A047</color>
+    <color name="colorLine">#808080</color>
 </resources>

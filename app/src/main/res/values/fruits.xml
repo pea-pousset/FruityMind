@@ -17,7 +17,7 @@
         <item>Framboise</item>
         <item>Kiwi</item>
         <item>Orange</item>
-        <item>Prune</item>
+        <item>Cerise</item>
         <item>Raisin</item>
         <item>Citron</item>
     </string-array>
@@ -28,7 +28,7 @@
         <item>false</item> <!-- Raspberry -->
         <item>false</item> <!-- Kiwi -->
         <item>true</item>  <!-- Orange -->
-        <item>true</item>  <!-- Plum -->
+        <item>true</item>  <!-- Cherry -->
         <item>true</item>  <!-- Grapes -->
         <item>true</item>  <!-- Lemon  -->
     </array>
@@ -39,7 +39,7 @@
         <item>false</item> <!-- Raspberry -->
         <item>true</item>  <!-- Kiwi -->
         <item>true</item>  <!-- Orange -->
-        <item>false</item> <!-- Plum -->
+        <item>false</item> <!-- Cherry -->
         <item>false</item> <!-- Grapes -->
         <item>true</item>  <!-- Lemon  -->
     </array>
@@ -50,7 +50,7 @@
         <item>@drawable/raspberry</item>
         <item>@drawable/kiwi</item>
         <item>@drawable/orange</item>
-        <item>@drawable/plum</item>
+        <item>@drawable/cherry</item>
         <item>@drawable/grapes</item>
         <item>@drawable/lemon</item>
     </array>

@@ -10,6 +10,8 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,18 +26,20 @@ public class MainActivity extends AppCompatActivity
     static final int CODE_LEN  = 4;     // Nombre de fruits dans un code
     static final int MAX_TRIES = 10;    // Nombre maximum d'essais autorise
 
-    private int       m_numFruits;  // Nombre de fruits differents
-    private boolean[] m_withSeed;   // Attribut withSeed pour chaque fruit
-    private boolean[] m_peelable;   // Attribut peelable pour chaque fruit
-    private int[]     m_iFruits;    // Liste d'indices des fruits melangee a chaque nouvelle partie
-    private int[]     m_userEntry;  // Indices des fruits choisis par le joueur
-    private int       m_score;      // Score total
-    private int       m_numTries;   // Nombre d'essais joues dans le set en cours
-    private int       m_numGames;   // Nombre de parties gagnees
-    private boolean   m_seedHintUsed;       // Indice graine utlise
-    private boolean   m_peelableHintUsed;   // Indice pelable utilise
-    private History   m_history;            // Historique des essais joues
-    private Resources res;                  // Ressources de l'application
+    private int         m_numFruits;    // Nombre de fruits differents
+    private boolean[]   m_withSeed;     // Attribut withSeed pour chaque fruit
+    private boolean[]   m_peelable;     // Attribut peelable pour chaque fruit
+    private int[]       m_iFruits;      // Liste d'indices des fruits melangee
+    private int[]       m_userEntry;    // Indices des fruits choisis par le joueur
+    private int         m_score;        // Score total
+    private int         m_numTries;     // Nombre d'essais joues dans le set en cours
+    private int         m_numGames;     // Nombre de parties gagnees
+    private boolean     m_seedHintUsed; // Indice graine utlise
+    private boolean     m_peelHintUsed; // Indice pelable utilise
+    private History     m_history;      // Historique des essais joues
+    private Resources   res;            // Ressources de l'application
+    private ImageView[] m_seedIcons;
+    private ImageView[] m_peelIcons;
 
     /*========================================================================================*//**
      * Initialisation de l'activite
@@ -78,9 +82,69 @@ public class MainActivity extends AppCompatActivity
             m_iFruits[i] = i;
         }
 
-        m_userEntry = new int[CODE_LEN];
+        // Recupere les icones d'indices
+        m_seedIcons = new ImageView[CODE_LEN];
+        m_peelIcons = new ImageView[CODE_LEN];
+        m_seedIcons[0] = findViewById(R.id.seed_0);
+        m_seedIcons[1] = findViewById(R.id.seed_1);
+        m_seedIcons[2] = findViewById(R.id.seed_2);
+        m_seedIcons[3] = findViewById(R.id.seed_3);
+        m_peelIcons[0] = findViewById(R.id.peel_0);
+        m_peelIcons[1] = findViewById(R.id.peel_1);
+        m_peelIcons[2] = findViewById(R.id.peel_2);
+        m_peelIcons[3] = findViewById(R.id.peel_3);
 
+
+        m_userEntry = new int[CODE_LEN];
         newGame();
+    }
+
+    /*========================================================================================*//**
+     * Cree le menu principal
+     *//*=========================================================================================*/
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    /*========================================================================================*//**
+     * Affichage du menu
+     *//*=========================================================================================*/
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        super.onPrepareOptionsMenu(menu);
+        // Grise les indices indisponibles
+        menu.getItem(0).setEnabled(!m_seedHintUsed);
+        menu.getItem(1).setEnabled(!m_peelHintUsed);
+        return true;
+    }
+
+    /*========================================================================================*//**
+     * Appele quand le joueur clique sur un item du menu
+     *//*=========================================================================================*/
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    {
+        super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.hintSeed)
+        {
+            if (m_seedHintUsed)
+                return true;
+            showSeedHint();
+        }
+        else if (item.getItemId() == R.id.hintPeel)
+        {
+            if (m_peelHintUsed)
+                return true;
+            showPeelHint();
+        }
+
+        return true;
     }
 
     /*========================================================================================*//**
@@ -146,9 +210,17 @@ public class MainActivity extends AppCompatActivity
 
         m_numTries = 0;
         m_seedHintUsed = false;
-        m_peelableHintUsed = false;
+        m_peelHintUsed = false;
         m_history.clear();
         updateScoreDisplay();
+
+        // Cache la vue des indices et met les icones a "blank"
+        findViewById(R.id.hintsLayout).setVisibility(View.GONE);
+        for (int i = 0; i < CODE_LEN; ++i)
+        {
+            m_seedIcons[i].setImageDrawable(res.getDrawable(R.drawable.blank));
+            m_peelIcons[i].setImageDrawable(res.getDrawable(R.drawable.blank));
+        }
     }
 
     /*========================================================================================*//**
@@ -184,6 +256,98 @@ public class MainActivity extends AppCompatActivity
     }
 
     /*========================================================================================*//**
+     * Grise les entrees indice dans le menu en fonction du score
+     *//*=========================================================================================*/
+    private void updateHintsEnabled()
+    {
+        int usedHintsCount = 0;
+        int hintCost = 0;
+
+        if (m_seedHintUsed)
+            ++usedHintsCount;
+        if (m_peelHintUsed)
+            ++usedHintsCount;
+
+        if (usedHintsCount == 0)
+            hintCost = 2;
+        else
+            hintCost = 3;
+
+        if (hintCost > MAX_TRIES - m_numTries)
+        {
+            // On fait comme si les indices avaient ete utilises pour les griser
+            m_seedHintUsed = true;
+            m_peelHintUsed = true;
+        }
+    }
+
+    /*========================================================================================*//**
+     * Affiche les indices "a egrainer"
+     *//*=========================================================================================*/
+    void showSeedHint()
+    {
+        // On ne verifie pas si il reste assez d'essais, le menu est deja grise dans ce cas
+        if (m_seedHintUsed)
+            return;
+
+        if (m_peelHintUsed) // Autre indice utilise : coup = 3 essais
+        {
+            m_numTries += 3;
+            tryToast("-3");
+        }
+        else
+        {
+            m_numTries += 2;
+            tryToast("-2");
+        }
+
+        m_seedHintUsed = true;
+        findViewById(R.id.hintsLayout).setVisibility(View.VISIBLE);
+        for (int i = 0; i < 4; ++i)
+        {
+            if (m_withSeed[m_iFruits[i]])
+                m_seedIcons[i].setImageDrawable(res.getDrawable(R.drawable.seed_true));
+            else
+                m_seedIcons[i].setImageDrawable(res.getDrawable(R.drawable.seed_false));
+
+        }
+        updateHintsEnabled();
+        updateScoreDisplay();
+    }
+
+    /*========================================================================================*//**
+     * Affiche les indices "a peler"
+     *//*=========================================================================================*/
+    void showPeelHint()
+    {
+        if (m_peelHintUsed)
+            return;
+
+        if (m_seedHintUsed)
+        {
+            m_numTries += 3;
+            tryToast("-3");
+        }
+        else
+        {
+            m_numTries += 2;
+            tryToast("-2");
+        }
+
+        m_peelHintUsed = true;
+        findViewById(R.id.hintsLayout).setVisibility(View.VISIBLE);
+        for (int i = 0; i < 4; ++i)
+        {
+            if (m_peelable[m_iFruits[i]])
+                m_peelIcons[i].setImageDrawable(res.getDrawable(R.drawable.peel_true));
+            else
+                m_peelIcons[i].setImageDrawable(res.getDrawable(R.drawable.peel_false));
+        }
+        updateHintsEnabled();
+        updateScoreDisplay();
+    }
+
+    /*========================================================================================*//**
      * Traite une tentative du joueur
      *//*=========================================================================================*/
     private void makeGuess()
@@ -199,6 +363,7 @@ public class MainActivity extends AppCompatActivity
 
         ++m_numTries;
         updateScoreDisplay();
+        updateHintsEnabled();
 
         // Le code secret ne peut pas contenir de doublons mais le code du joueur, si. On procede
         // donc comme si les doublons etaient possibles.
@@ -302,6 +467,23 @@ public class MainActivity extends AppCompatActivity
         findViewById(R.id.score).getLocationOnScreen(scoreLoc);
         scoreLoc[1] -= findViewById(R.id.score).getHeight();
         toast.setGravity(Gravity.TOP | Gravity.LEFT, scoreLoc[0], scoreLoc[1]);
+        toast.show();
+    }
+
+    /*========================================================================================*//**
+     * Affiche un toast sur le nombre d'essais
+     *
+     * @param text Texte du toast
+     *//*=========================================================================================*/
+    void tryToast(String text)
+    {
+        int tryLoc[] = new int[2];
+        Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
+
+        // Trouve la position du nombre d'essais
+        findViewById(R.id.numTries).getLocationOnScreen(tryLoc);
+        tryLoc[1] -= findViewById(R.id.score).getHeight();
+        toast.setGravity(Gravity.TOP | Gravity.LEFT, tryLoc[0], tryLoc[1]);
         toast.show();
     }
 }
