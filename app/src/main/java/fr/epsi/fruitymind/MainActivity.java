@@ -143,6 +143,14 @@ public class MainActivity extends AppCompatActivity
                 return true;
             showPeelHint();
         }
+        else if (item.getItemId() == R.id.help)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setCancelable(true);
+            builder.setTitle(R.string.titleHelp);
+            builder.setMessage(R.string.txtHelp);
+            builder.show();
+        }
 
         return true;
     }
