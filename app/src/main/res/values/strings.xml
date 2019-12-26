@@ -23,11 +23,10 @@
     <string name="titleHelp">Règle du jeu</string>
     <string name="txtHelp">
         Le but de ce jeu est de déduire la combinaison de 4 fruits en moins de 10 tentatives.
-        \nA chaque essai, une notification apparaît à droite.
         \nSi un fruit est présent mais mal placé, une pastille orange apparaît.
         \nSi un fruit est bien placé, une pastille verte apparaît.
         \nLe premier indice utilisé coûte 2 tentatives et le second 3 de plus.
-        \nfruit à éplucher : banane, kiwi, orange, citron
-        \nfruit à graine : orange, cerise, raisin, citron
+        \nFruits à éplucher : banane, kiwi, orange, citron
+        \nFruit à égrainer : orange, cerise, raisin, citron
     </string>
 </resources>

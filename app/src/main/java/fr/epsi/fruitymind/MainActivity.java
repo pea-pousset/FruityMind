@@ -147,6 +147,7 @@ public class MainActivity extends AppCompatActivity
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setCancelable(true);
+            builder.setPositiveButton("OK", null);
             builder.setTitle(R.string.titleHelp);
             builder.setMessage(R.string.txtHelp);
             builder.show();
